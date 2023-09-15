@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge";
 export interface Token {
   label: string;
   address: string;
-  id?: string;
+  id: string;
 }
 
 export interface Balances {
@@ -15,18 +15,11 @@ export interface Balances {
   erc1155: Token[];
 }
 
-const getTokenLabel = (asset?: string, bal?: string) =>
-  `${asset || "Unknown"}${bal ? `: ${bal}` : ""}`;
-
-const getTokenAddress = (address?: string) => address || "?";
-
-const getTokenId = (id?: string) => id || "";
-
 /* Merge classes with tailwind-merge with clsx full feature */
 export const clsxm = (...classes: ClassValue[]) => twMerge(clsx(...classes));
 
 /* Process wallet balances in the desired format */
-export const processBalances = (data: AddressBalance[]) => {
+export const doSthWithData = (data: AddressBalance[]) => {
   const balances: Balances = {
     coin: "",
     erc20: [],
@@ -35,26 +28,28 @@ export const processBalances = (data: AddressBalance[]) => {
   };
 
   for (const bal of data) {
-    if (bal.type === "native") {
-      balances.coin = `${bal.balance} ${bal.asset}`;
-    } else if (bal.type === "fungible") {
+    if (bal.type === "native") balances.coin = `${bal.balance} ${bal.asset}`;
+    else if (bal.type === "fungible")
       balances.erc20.push({
-        label: getTokenLabel(bal.asset, bal.balance),
-        address: getTokenAddress(bal.tokenAddress),
+        label: `${bal.asset || "Unknown"}${
+          bal.balance ? `: ${bal.balance}` : ""
+        }`,
+        address: bal.tokenAddress || "?",
       });
-    } else if (bal.type === "nft") {
+    else if (bal.type === "nft")
       balances.erc721.push({
-        label: getTokenLabel(bal.asset),
-        address: getTokenAddress(bal.tokenAddress),
-        id: getTokenId(bal.tokenId),
+        label: `${bal.asset || "Unknown"}`,
+        address: bal.tokenAddress || "?",
+        id: bal.tokenId || "",
       });
-    } else {
+    else
       balances.erc1155.push({
-        label: getTokenLabel(bal.asset, bal.balance),
-        address: getTokenAddress(bal.tokenAddress),
-        id: getTokenId(bal.tokenId),
+        label: `${bal.asset || "Unknown"}${
+          bal.balance ? `: ${bal.balance}` : ""
+        }`,
+        address: bal.tokenAddress || "?",
+        id: bal.tokenId || "",
       });
-    }
   }
 
   return balances;

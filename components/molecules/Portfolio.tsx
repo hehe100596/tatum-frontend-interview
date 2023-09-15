@@ -6,17 +6,13 @@ import Card from "../atoms/Card";
 import Tab from "../atoms/Tab";
 
 const Portfolio = ({ balances }: { balances: Balances }): JSX.Element => {
-  const [activeTab, setActiveTab] = React.useState(1);
-
-  const handleTabChange = (tabNumber: number) => {
-    setActiveTab(tabNumber);
-  };
+  let activeTab = 1;
 
   const TokenList = ({ items }: { items: Token[] }): JSX.Element => (
     <div className="flex flex-col mt-4 text-gray-200 space-y-0 overflow-scroll max-h-40 divide-y">
       {items[0] ? (
-        items.map((item, index) => (
-          <span className="p-4" key={index}>
+        items.map((item) => (
+          <span className="p-4">
             <b>{item.label}</b>
             <b className="float-right">{item.id ? ` (${item.id})` : ""}</b>
             <p>{item.address}</p>
@@ -34,17 +30,23 @@ const Portfolio = ({ balances }: { balances: Balances }): JSX.Element => {
         <Tab
           active={activeTab === 1}
           text="Fungibles"
-          onClick={() => handleTabChange(1)}
+          onClick={() => {
+            activeTab = 1;
+          }}
         />
         <Tab
           active={activeTab === 2}
           text="NFTs"
-          onClick={() => handleTabChange(2)}
+          onClick={() => {
+            activeTab = 2;
+          }}
         />
         <Tab
           active={activeTab === 3}
           text="Multitokens"
-          onClick={() => handleTabChange(3)}
+          onClick={() => {
+            activeTab = 3;
+          }}
         />
       </div>
 

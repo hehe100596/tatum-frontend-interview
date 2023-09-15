@@ -6,7 +6,7 @@ import * as React from "react";
 import Image from "next/image";
 import { toast } from "react-hot-toast";
 
-import { Balances, clsxm, processBalances } from "@/lib/utils";
+import { Balances, clsxm, doSthWithData } from "@/lib/utils";
 
 import Button from "../atoms/Button";
 import Card from "../atoms/Card";
@@ -31,17 +31,16 @@ const Metamask = (): JSX.Element => {
       network: Network.ETHEREUM_SEPOLIA,
     });
 
-    try {
-      /* https://docs.tatum.com/docs/wallet-address-operations/get-all-assets-the-wallet-holds */
-      const bal = await tatum.address.getBalance({
-        addresses: [address],
-      });
+    /* https://docs.tatum.com/docs/wallet-address-operations/get-all-assets-the-wallet-holds */
+    const bal = await tatum.address.getBalance({
+      addresses: [address],
+    });
 
-      setBalances(processBalances(bal.data));
-    } catch (error) {
-      console.error(error);
+    if (!bal) {
       toast.error("Balances failed to load");
     }
+
+    setBalances(doSthWithData(bal.data));
 
     // destroy Tatum SDK - needed for stopping background jobs
     tatum.destroy();
@@ -49,30 +48,9 @@ const Metamask = (): JSX.Element => {
     setLoading(false);
   };
 
-  const connectMetamask = async () => {
-    setLoading(true);
-
-    let acc = optional;
-
-    if (!acc) {
-      const tatum = await TatumSDK.init<Ethereum>({
-        network: Network.ETHEREUM_SEPOLIA,
-      });
-
-      try {
-        /* https://docs.tatum.com/docs/wallet-provider/metamask/connect-a-wallet */
-        acc = await tatum.walletProvider.metaMask.connect();
-      } catch (error) {
-        console.error(error);
-        toast.error("Connection failed");
-      }
-
-      // destroy Tatum SDK - needed for stopping background jobs
-      tatum.destroy();
-    }
-
-    setAccount(acc);
-    fetchBalances(acc);
+  const connectMetamask = () => {
+    setAccount(optional);
+    fetchBalances(account);
   };
 
   return (
@@ -96,7 +74,7 @@ const Metamask = (): JSX.Element => {
           value={optional}
           onChange={(e) => setOptional(e.target.value)}
           className="block w-[360px] text-sm text-center py-2 mt-1 border border-black rounded-md focus:ring-blue-500 focus:border-blue-500"
-          placeholder="Enter custom wallet address (optional)"
+          placeholder="Enter wallet address"
           required
         />
         <Button onClick={connectMetamask} disabled={loading}>

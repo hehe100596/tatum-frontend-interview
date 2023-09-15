@@ -4,8 +4,8 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Metamask Portfolio",
-  description: "Connect your wallet and get all balances",
+  title: "Portfolio",
+  description: "Get all balances of any wallet",
 };
 
 export default function RootLayout({
