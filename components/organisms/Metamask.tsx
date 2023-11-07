@@ -27,25 +27,31 @@ const Metamask = (): JSX.Element => {
   const fetchBalances = async (address: string) => {
     if (!loading) setLoading(true);
 
-    const tatum = await TatumSDK.init<Ethereum>({
+    TatumSDK.init<Ethereum>({
       network: Network.ETHEREUM_SEPOLIA,
+    }).then((tatum) => {
+      let bal = null;
+
+      /* https://docs.tatum.com/docs/wallet-address-operations/get-all-assets-the-wallet-holds */
+      tatum.address
+        .getBalance({
+          addresses: [address],
+        })
+        .then((res) => {
+          bal = res;
+        });
+
+      if (!bal) {
+        toast.error("Balances failed to load");
+      }
+
+      setBalances(doSthWithData(bal?.data));
+
+      // destroy Tatum SDK - needed for stopping background jobs
+      tatum.destroy();
+
+      setLoading(false);
     });
-
-    /* https://docs.tatum.com/docs/wallet-address-operations/get-all-assets-the-wallet-holds */
-    const bal = await tatum.address.getBalance({
-      addresses: [address],
-    });
-
-    if (!bal) {
-      toast.error("Balances failed to load");
-    }
-
-    setBalances(doSthWithData(bal.data));
-
-    // destroy Tatum SDK - needed for stopping background jobs
-    tatum.destroy();
-
-    setLoading(false);
   };
 
   const connectMetamask = () => {
