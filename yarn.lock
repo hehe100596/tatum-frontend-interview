@@ -192,12 +192,13 @@
   dependencies:
     tslib "^2.4.0"
 
-"@tatumio/tatum@^3.0.8":
-  version "3.0.8"
-  resolved "https://registry.yarnpkg.com/@tatumio/tatum/-/tatum-3.0.8.tgz#7c25fb4f36ea0cbe2be8ef2154b290100c2db929"
-  integrity sha512-ihKlZw9dZ7tLqRH0RnagEoiJwJJtnkCaVEYZkT7xXhseZWBCWgddyiRSya6aOhcnrygbrrE6/K8m7ltabvd+0Q==
+"@tatumio/tatum@^4.2.2":
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/@tatumio/tatum/-/tatum-4.2.2.tgz#ab7246a78d393e3ebb63b058d0b157fc4d91510b"
+  integrity sha512-ZJkEyHP9ACQcX4tGpjCx9qif/8/Dp7iCO5pjjbiZWV+DLiFDbTr4QqliUBDsK0p5+E8PfXeYT8e3otus2vjsFg==
   dependencies:
     bignumber.js "^9.1.1"
+    chalk "^4.1.2"
     reflect-metadata "^0.1.13"
     typedi "^0.10.0"
 
@@ -534,7 +535,7 @@ caniuse-lite@^1.0.30001406, caniuse-lite@^1.0.30001464, caniuse-lite@^1.0.300015
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001519.tgz#3e7b8b8a7077e78b0eb054d69e6edf5c7df35601"
   integrity sha512-0QHgqR+Jv4bxHMp8kZ1Kn8CH55OikjKJ6JmKkZYP1F3D7w+lnFXF70nG5eNfsZS89jadi5Ywy5UCSKLAglIRkg==
 
-chalk@^4.0.0:
+chalk@^4.0.0, chalk@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-4.1.2.tgz#aac4e2b7734a740867aeb16bf02aad556a1e7a01"
   integrity sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==
