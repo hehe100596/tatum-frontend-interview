@@ -29,6 +29,7 @@ const Metamask = (): JSX.Element => {
 
     TatumSDK.init<Ethereum>({
       network: Network.ETHEREUM_SEPOLIA,
+      apiKey: "INSERT_API_KEY",
     }).then((tatum) => {
       let bal = null;
 

@@ -192,10 +192,10 @@
   dependencies:
     tslib "^2.4.0"
 
-"@tatumio/tatum@^4.2.2":
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/@tatumio/tatum/-/tatum-4.2.2.tgz#ab7246a78d393e3ebb63b058d0b157fc4d91510b"
-  integrity sha512-ZJkEyHP9ACQcX4tGpjCx9qif/8/Dp7iCO5pjjbiZWV+DLiFDbTr4QqliUBDsK0p5+E8PfXeYT8e3otus2vjsFg==
+"@tatumio/tatum@^4.2.43":
+  version "4.2.43"
+  resolved "https://registry.yarnpkg.com/@tatumio/tatum/-/tatum-4.2.43.tgz#b3c2f4aa458ba2e9c46e9572bf03cb75ccc85784"
+  integrity sha512-QmKTARo04JYMkCLmCc34svlKn6Kg3sSeruk/clQJz24phg0ImPtoakFaJJn8/wAlvB3z/sUY5YrbboeVlY4vhQ==
   dependencies:
     bignumber.js "^9.1.1"
     chalk "^4.1.2"
