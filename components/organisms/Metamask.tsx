@@ -18,7 +18,6 @@ const Metamask = (): JSX.Element => {
   const [account, setAccount] = React.useState("");
   const [optional, setOptional] = React.useState("");
   const [balances, setBalances] = React.useState<Balances>({
-    coin: "",
     erc20: [],
     erc721: [],
     erc1155: [],
@@ -27,32 +26,32 @@ const Metamask = (): JSX.Element => {
   const fetchBalances = async (address: string) => {
     if (!loading) setLoading(true);
 
-    TatumSDK.init<Ethereum>({
+    let bal = null;
+
+    await TatumSDK.init<Ethereum>({
       network: Network.ETHEREUM_SEPOLIA,
       apiKey: "INSERT_API_KEY",
-    }).then((tatum) => {
-      let bal = null;
-
+    }).then(async (tatum) => {
       /* https://docs.tatum.com/docs/wallet-address-operations/get-all-assets-the-wallet-holds */
       tatum.address
         .getBalance({
           addresses: [address],
+          tokenTypes: ["fungible", "nft", "multitoken"],
         })
-        .then((res) => {
+        .then(async (res) => {
+          // destroy Tatum SDK - needed for stopping background jobs
+          tatum.destroy();
           bal = res;
         });
-
-      if (!bal) {
-        toast.error("Balances failed to load");
-      }
-
-      setBalances(doSthWithData(bal?.data));
-
-      // destroy Tatum SDK - needed for stopping background jobs
-      tatum.destroy();
-
-      setLoading(false);
     });
+
+    if (!bal) {
+      toast.error("Balances failed to load");
+    }
+
+    setBalances(doSthWithData(bal?.data));
+
+    setLoading(false);
   };
 
   const connectMetamask = () => {
@@ -104,7 +103,6 @@ const Metamask = (): JSX.Element => {
               height={15}
               priority
             />
-            <div className="text-xl">{balances.coin}</div>
             <input
               type="text"
               value={account}

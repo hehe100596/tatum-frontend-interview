@@ -9,7 +9,6 @@ export interface Token {
 }
 
 export interface Balances {
-  coin: string;
   erc20: Token[];
   erc721: Token[];
   erc1155: Token[];
@@ -21,15 +20,13 @@ export const clsxm = (...classes: ClassValue[]) => twMerge(clsx(...classes));
 /* Process wallet balances in the desired format */
 export const doSthWithData = (data: AddressBalance[]) => {
   const balances: Balances = {
-    coin: "",
     erc20: [],
     erc721: [],
     erc1155: [],
   };
 
   for (const bal of data) {
-    if (bal.type === "native") balances.coin = `${bal.balance} ${bal.asset}`;
-    else if (bal.type === "fungible")
+    if (bal.type === "fungible")
       balances.erc20.push({
         label: `${bal.asset || "Unknown"}${
           bal.balance ? `: ${bal.balance}` : ""
